@@ -4,17 +4,17 @@ A Sqoop job to download data from a database through Oozie coordinator and workf
 
 This application is to create an oozie job using oozie coordinators and workflows which will trigger/execute a sqoop job. Using oozie coordinators, we can automate the schedule for data download.
 
-How to use :
+<b>How to use :</b>
 
-To create/start the oozie job use this command -> oozie job -config <application_configuration_file> -run
+1. To create/start the oozie job use this command -> oozie job -config <application_configuration_file> -run
 
-To kill/stop the oozie job use this command -> oozie job -kill <job_id>
+2. To kill/stop the oozie job use this command -> oozie job -kill <job_id>
 
-Before starting an oozie job, one need to assign the OOZIE_URL like below ->
+3. Before starting an oozie job, one need to assign the OOZIE_URL like below ->
 
 export OOZIE_URL=http://testserver.pralay.org:11000/oozie
 
-There are three files which will be used for oozie job configuration ->
+4. There are three files which will be used for oozie job configuration ->
 
 a) application_coordinator.properties (configuration file of oozie job)
 
@@ -22,7 +22,7 @@ b) application_coordinator.xml (coordinator file for execution frequency of oozi
 
 c) application_workflow.xml (workflow file of oozie job)
 
-There are five sections in application_coordinator.properties file.
+5. There are five sections in application_coordinator.properties file.
 
 Section#1 contains distribution(cloudera/mapr) specific details.
 
@@ -40,11 +40,11 @@ In section#4, unit of coordinatorFrequency is in minutes.
 
 All the dependent libraries(of section#3) are present in dependencies folder in this repository
 
-application_coordinator.xml file will contain application scheduling details. It will take coordination frequency from application_coordinator.properties file. This file will also refer to the calling application.
+6. application_coordinator.xml file will contain application scheduling details. It will take coordination frequency from application_coordinator.properties file. This file will also refer to the calling application.
 
-application_workflow.xml file will have workflow logics. We can have reference of multiple application along with calling application. This application uses oozieActivities application other than calling application(which is mentioned in appName & appClass variables inside section#4 of application_coordinator.properties file)
+7. application_workflow.xml file will have workflow logics. We can have reference of multiple application along with calling application. This application uses oozieActivities application other than calling application(which is mentioned in appName & appClass variables inside section#4 of application_coordinator.properties file)
 
-Sample oozie commands are below ->
+8. Sample oozie commands are below ->
 
 oozie jobs -jobtype coordinator [to check what all jobs are running]
 
