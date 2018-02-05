@@ -16,29 +16,29 @@ export OOZIE_URL=http://testserver.pralay.org:11000/oozie
 
 4. There are three files which will be used for oozie job configuration ->
 
-a) application_coordinator.properties (configuration file of oozie job)
+   a) application_coordinator.properties (configuration file of oozie job)
 
-b) application_coordinator.xml (coordinator file for execution frequency of oozie job)
+   b) application_coordinator.xml (coordinator file for execution frequency of oozie job)
 
-c) application_workflow.xml (workflow file of oozie job)
+   c) application_workflow.xml (workflow file of oozie job)
 
 5. There are five sections in application_coordinator.properties file.
 
-Section#1 contains distribution(cloudera/mapr) specific details.
+   Section#1 contains distribution(cloudera/mapr) specific details.
 
-Section#2 contains location of coordinator and workflow files.
+   Section#2 contains location of coordinator and workflow files.
 
-Section#3 contains library file details.
+   Section#3 contains library file details.
 
-Section#4 contains application specific details.
+   Section#4 contains application specific details.
 
-Section#5 contains timeline of oozie job.
+   Section#5 contains timeline of oozie job.
 
-Currently in section#1, cloudera specific details are enabled and mapr specific details are disabled. One can toggle between them as per their requirements.
+   Currently in section#1, cloudera specific details are enabled and mapr specific details are disabled. One can toggle between them as per their requirements.
 
-In section#4, unit of coordinatorFrequency is in minutes.
+   In section#4, unit of coordinatorFrequency is in minutes.
 
-All the dependent libraries(of section#3) are present in dependencies folder in this repository
+   All the dependent libraries(of section#3) are present in dependencies folder in this repository
 
 6. application_coordinator.xml file will contain application scheduling details. It will take coordination frequency from application_coordinator.properties file. This file will also refer to the calling application.
 
@@ -46,12 +46,12 @@ All the dependent libraries(of section#3) are present in dependencies folder in 
 
 8. Sample oozie commands are below ->
 
-oozie jobs -jobtype coordinator [to check what all jobs are running]
+   oozie jobs -jobtype coordinator [to check what all jobs are running]
 
-oozie job -config {location_of_properties_file} –run [to start a oozie job]
+   oozie job -config {location_of_properties_file} –run [to start a oozie job]
 
-oozie job -info {JOBID} [to see/monitor details of a job]
+   oozie job -info {JOBID} [to see/monitor details of a job]
 
-oozie job -kill {JOBID} [to kill a job]
+   oozie job -kill {JOBID} [to kill a job]
 
-oozie job -log {JOBID} [to check the log details of a job]
+   oozie job -log {JOBID} [to check the log details of a job]
