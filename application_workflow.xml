@@ -1,0 +1,70 @@
+<workflow-app name="dataMappingTS-${tableName}-workflow" xmlns="uri:oozie:workflow:0.1">
+    <start to="GetUnixTime"/>
+    <action name="GetUnixTime">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+               <configuration>
+                <property>
+                    <name>oozie.launcher.mapreduce.user.classpath.first</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>date</name>
+                    <value>${runDateTime}</value>
+                </property>
+                <property>
+                    <name>time.zone</name>
+                    <value>${timeZone}</value>
+                </property>
+                <property>
+                    <name>mapred.map.tasks.speculative.execution</name>
+                    <value>false</value>
+                </property>
+            </configuration>
+        <main-class>com.ericsson.eea.oozietasks.GetUnixTime</main-class>
+            <capture-output />
+        </java>
+        <ok to="dataMappingTS"/>
+        <error to="end"/>
+    </action>
+    <action name="dataMappingTS">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+            <prepare>
+               <delete path="${rootDir}/${tableName}/${runDateTime}"/>
+               <mkdir path="${rootDir}/${tableName}"/>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.compress.map.output</name>
+                    <value>true</value>
+                </property>
+            </configuration>
+            <arg>import</arg>
+            <arg>--connect</arg>
+            <arg>jdbc:oracle:thin:@${dbHost}:${dbPort}/${dbName}</arg>
+            <arg>--table</arg>
+            <arg>${dbSchemaName}.${tableName}</arg>
+            <arg>--where</arg> <arg>${tableCol} &gt;= ${wf:actionData('GetUnixTime')['startTime']} AND ${tableCol} &lt; ${wf:actionData('GetUnixTime')['endTime']}</arg>
+            <arg>--username</arg> <arg>${dbUser}</arg>
+            <arg>--password-file</arg> <arg>${dbPasswordFile}</arg>
+            <arg>--as-parquetfile</arg>
+            <arg>--map-column-java</arg>
+            <arg>${mappingString}</arg>
+            <arg>--direct</arg>
+            <arg>--target-dir</arg>
+            <arg>${rootDir}/${tableName}/${runDateTime}</arg>
+            <arg>-m</arg>
+            <arg>1</arg>
+        </sqoop>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>Sqoop test failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name='end' />
+
+</workflow-app>
