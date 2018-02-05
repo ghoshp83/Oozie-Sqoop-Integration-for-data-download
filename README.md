@@ -40,13 +40,13 @@ This application is to create an oozie job using oozie coordinators and workflow
 
    All the dependent libraries(of section#3) are present in dependencies folder in this repository
 
-6. application_coordinator.xml file will contain application scheduling details. It will take coordination frequency from application_coordinator.properties file. This file will also refer to the calling application. This file will fetch "yesterday's" data. If one wants to change this default settings then one has to change the value of "runDateTime" property in this file. 
+6. application_coordinator.xml file will contain application scheduling details. It will take coordination frequency from application_coordinator.properties file. This file will also refer to the calling application. This file will fetch "yesterday's" data. If one wants to change this default settings then one has to change the value of "runDateTime" property in this file. Third parameter will constitute for which day's data you want. Here with "-1", we can download yesterday's data. If you want today's data then put "0" and for day before yesterday put "-2". Code snippet is below ->
 
 ```xml
    {coord:formatTime(coord:dateOffset(coord:dateTzOffset(coord:nominalTime(), coord:conf("timeZone")),-1,'DAY'), "yyyyMMdd")}
 ```
 
-7. application_workflow.xml file will have workflow logics. We can have reference of multiple application along with calling application. This application uses oozieActivities application other than calling application(which is mentioned in appName & appClass variables inside section#4 of application_coordinator.properties file)
+7. application_workflow.xml file will have workflow logics. Here we have two main workflows. First one creates the unix time and second one is the sqoop job. We are downloading the data from oracle as a parquet file and storing the data in a hdfs location. We are also having column mapping between oracle and java(for hdfs).
 
 8. Sample oozie commands are below ->
 
