@@ -1,6 +1,6 @@
 # Oozie-Sqoop-Integration-for-data-download
 
-A Sqoop job to download data from Oracle database through Oozie coordinator and workflows
+A Sqoop job to download data from Oracle database through Oozie coordinator and workflows.
 
 This application is to create an oozie job using oozie coordinators and workflows which will trigger/execute a sqoop job. Using oozie coordinators, we can automate the schedule for data download.
 
