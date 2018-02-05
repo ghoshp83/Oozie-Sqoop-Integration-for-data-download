@@ -42,7 +42,9 @@ This application is to create an oozie job using oozie coordinators and workflow
 
 6. application_coordinator.xml file will contain application scheduling details. It will take coordination frequency from application_coordinator.properties file. This file will also refer to the calling application. This file will fetch "yesterday's" data. If one wants to change this default settings then one has to change the value of "runDateTime" property in this file. 
 
-{coord:formatTime(coord:dateOffset(coord:dateTzOffset(coord:nominalTime(), coord:conf("timeZone")),-1,'DAY'), "yyyyMMdd")}
+```
+{coord:formatTime(coord:dateOffset(coord:dateTzOffset(coord:nominalTime(), coord:conf("timeZone")),<b>-1</b>,'DAY'), "yyyyMMdd")}
+```
 
 7. application_workflow.xml file will have workflow logics. We can have reference of multiple application along with calling application. This application uses oozieActivities application other than calling application(which is mentioned in appName & appClass variables inside section#4 of application_coordinator.properties file)
 
